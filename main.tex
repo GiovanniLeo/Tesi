@@ -1,0 +1,27 @@
+\documentclass[12pt,oneside]{report}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage[a4paper,top=25mm,bottom=25mm,bindingoffset=6mm,hmargin={3.5cm,3cm}]{geometry}
+\usepackage{setspace}
+\doublespacing
+\usepackage[italian]{babel}
+                 
+                 
+\begin{document} 
+	                
+	\begin{titlepage}
+		\input{Capitoli/Front}
+	\end{titlepage} 
+    
+    \pagenumbering{Roman}
+   	%Abstract Tesi
+	\chapter*{Abstract}
+	\input{Capitoli/Abstract}
+    %Indice
+    \tableofcontents{}
+    \newpage
+    \pagenumbering{arabic}
+    %Capitolo 1
+    \chapter{Introduzione}
+    \input{Capitoli/Capitolo1}
+\end{document}
