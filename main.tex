@@ -5,6 +5,10 @@
 \usepackage{setspace}
 \doublespacing
 \usepackage[italian]{babel}
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+{\normalfont\huge\bfseries}{}{0pt}{\Huge}
+\titlespacing*{\chapter} {0pt}{20pt}{40pt}
                  
                  
 \begin{document} 
@@ -13,8 +17,11 @@
 		\input{Capitoli/Front}
 	\end{titlepage} 
     
-    \pagenumbering{Roman}
+  
+    %Dediche iniziali
+    \input{Capitoli/dedicaIniziale}
    	%Abstract Tesi
+   	\pagenumbering{Roman}
 	\chapter*{Abstract}
 	\input{Capitoli/Abstract}
     %Indice
@@ -23,5 +30,8 @@
     \pagenumbering{arabic}
     %Capitolo 1
     \chapter{Introduzione}
-    \input{Capitoli/Capitolo1}
+    %\input{Capitoli/Capitolo1}
+    \newpage
+    \bibliography{bibliografia} 
+    \bibliographystyle{ieeetr}
 \end{document}
