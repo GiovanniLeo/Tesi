@@ -11,41 +11,72 @@ L'idea di base è una volta che ho trovato un minimo per un cluster, devo genera
 	\item 
 		\textbf{Caso base:} Consideriamo un unico attributo candidato per $X$($|X|= 1$).\\
 		Dato un \textit{clusterID} $k>0$ dell'attributo $A$, se esiste trova il minimo valore $m$ tale che 
-		\begin{equation}
-			m=min(k)<min(prev(k)\footnote{Indica il \textit{clusterID} precedente}) 
-		\end{equation}
+			\begin{equation}
+				m=min(k)<min(prev(k)\footnote{Indica il \textit{clusterID} precedente}) 
+			\end{equation}
 		$(m-\epsilon)$ rappresenta la migliore soglia per il cluster $next(k)$\footnote{Indica il \textit{clusterID} successivo}, in questo caso $\epsilon = 1$. Se $m > 0$ (non avrebbe senso imporre che la soglia sia minore o uguale ad un numero negativo) allora genero 
-		\begin{equation}
-		 X_{(\leq m-\epsilon)} \rightarrow A_{(\leq next(k))}
-		\end{equation}
+			\begin{equation}
+			 X_{(\leq m-\epsilon)} \rightarrow A_{(\leq next(k))}
+			\end{equation}
 		nel caso in cui $m=min(prev(k))$ devo aggiornare 
-		\begin{center}
-		$X_{(\leq m-\epsilon)} \rightarrow A_{(\leq k)}$
-		in $ X_{(\leq m-\epsilon)} \rightarrow A_{(\leq next(k))}$
-		\end{center}
+			\begin{center}
+			$X_{(\leq m-\epsilon)} \rightarrow A_{(\leq k)}$
+			in $ X_{(\leq m-\epsilon)} \rightarrow A_{(\leq next(k))}$
+			\end{center}
 		in altre parole quando ho due o più RFD sullo stesso LHS devo scegliere quella con RHS minore.
 	\item 
 		\textbf{Caso con $|X|=2$:} Dato un \textit{clusterID} $k>0$ dell'attributo $A$, se esiste trova le coppie $(m_{1},m_{2})$ non dominanti rispetto all'insieme di tuple \\$S=nonDominating(k)$, quindi
 		$(m_{1}-\epsilon,\alpha_{2})$ rappresenta una delle migliori soglie per il cluster $next(k)$.\\
 		Se $m_{1}>0$ genera
-		\begin{equation}
-		(X_{1})_{(\leq m_{1}-\epsilon)} (X_{2})_{(\leq \alpha_{2})}\rightarrow A_{(\leq next(k))}
-		\end{equation}
+			\begin{equation}
+			(X_{1})_{(\leq m_{1}-\epsilon)} (X_{2})_{(\leq \alpha_{2})}\rightarrow A_{(\leq next(k))}
+			\end{equation}
 		invece,
 		$(\alpha_{1},m_{2}-\epsilon)$ rappresenta una delle migliori soglie per il cluster $next(k)$.\\
 		Se $m_{2}>0$ genera
-		\begin{equation}
-		(X_{1})_{(\leq \alpha_{2})} (X_{2})_{(\leq m_{2}-\epsilon)}\rightarrow A_{(\leq next(k))}
-		\end{equation}
+			\begin{equation}
+			(X_{1})_{(\leq \alpha_{2})} (X_{2})_{(\leq m_{2}-\epsilon)}\rightarrow A_{(\leq next(k))}
+			\end{equation}
 		il tutto è possibile se $\alpha_{j}$(in questo caso $j=1,2$) esiste. A questo punto devo determinare $\alpha_{j}$ per un $X_{j}$ di cui viene fatto il dicovery secondo $m_{i}$ di $X_{i}$ ($j=1,2$, $i=1,2$ in particolare quando $j=1$, $i=2$ e viceversa)per un dato pattern di tuple $t$.\\
 		Consideriamo i pattern di tuple non dominanti $S=t_{1},...,t_{n}$ con $t_{l}\neq t$ per $l=1,...,n$.\\
 		Se esiste, trova il minimo valore $p_{j}$ del pattern di tuple $t_{l}$ tale che
-		\begin{enumerate}
-			\item  $m_{j}<p_{j}$, e
-			\item $m_{i-\epsilon} \geq p_{i}$ con $p_{i}=t_{l}[X_{i}]$
-		\end{enumerate}  
-	e genera $\alpha_{j}= p_{j} -\epsilon$.\\ In altre parole il minimo valore fra questi è dominato da $m_{i-\epsilon}$
-		                                                                                                                                                                       
+			\begin{enumerate}
+				\item  $m_{j}<p_{j}$, e
+				\item $m_{i-\epsilon} \geq p_{i}$ con $p_{i}=t_{l}[X_{i}]$
+			\end{enumerate}  
+		e genera $\alpha_{j}= p_{j} -\epsilon$.\\ In altre parole il minimo valore fra questi è dominato da $m_{i-\epsilon}$
+		\item 
+			\textbf{Caso con $|X|=n$:} Dato un \textit{clusterID} $k>0$ dell'attributo $A$, se esiste trova le tuple $(m_{1},...,m_{n})$ non dominanti rispetto all'insieme di tuple \\$S=nonDominating(k$ and $prev(k))$, quindi $(\alpha_{1},...,\alpha_{i-1},m_{i-\epsilon},\alpha_{i+1},...,\alpha_{n})$ rappresenta una delle migliori soglie per il cluster $next(k)$ per ogni $i=1,...,n$.  \\
+			Se $m_{i} >0$ genera
+			\begin{equation*}
+				(X_{1})_{(\leq \alpha_{1})},...,(X_{i-1})_{(\leq \alpha_{i-1})},(X_{i})_{(\leq m_{i-\epsilon})},(X_{i+1})_{(\leq \alpha_{i+1})},...,(X_{n})_{(\leq \alpha_{n})} \rightarrow (A)_{(\leq next(k))}
+			\end{equation*}
+			il tutto è possibile come nel caso precedente se tutti gli $\alpha_{j}$ esistono.Questo caso è molto particolare poiché per determinare gli $\alpha_{j}$(l'idea formale è identica al caso in cui  $|X|=2$ con l'unica differenza che $j=1,...,n$, $i=1,...,n$) dobbiamo distinguere due sotto casi:
+				\begin{enumerate}
+				\item  \textbf{Caso 1:} Se $(m_{1},...,m_{n})$ è un pattern dominante ovvero tale pattern è ammissibile e minimale.
+					Consideriamo i pattern di tuple non dominanti $S=t_{1},...,t_{n}$ con $t_{l}\neq t$ per $l=1,...,n$.\\
+				Se esiste, trova il minimo valore $p_{j}$ del pattern di tuple $t_{l}$ tale che
+				\begin{enumerate}
+					\item  $m_{j}<p_{j}$, 
+					\item $m_{i-\epsilon} \geq p_{i}$ con $p_{i}=t_{l}[X_{i}]$
+					\item $\alpha_{k} \geq p_{i}$ per ogni $k \in [0,j-1]$ e $k \neq i$
+					\item $m_{k'} \geq p_{k'}$ per ogni $k' \in [j+1,n]$ e $k' \neq i$
+				\end{enumerate}  
+				e genera $\alpha_{j}= p_{j} -\epsilon$.\\
+				 
+				\item  \textbf{Caso 2:} Se $(m_{1},...,m_{n})$ è un pattern non dominante ovvero tale pattern è ammissibile.
+				Consideriamo i pattern di tuple non dominanti $S=t_{1},...,t_{n}$ con $t_{l}\neq t$ per $l=1,...,n$.\\
+				Se esiste, trova il minimo valore $p_{j}$ del pattern di tuple $t_{l}$ tale che
+				\begin{enumerate}
+					\item  $m_{j}<p_{j}$, 
+					\item $m_{i-\epsilon} \geq p_{i}$ con $p_{i}=t_{l}[X_{i}]$
+					\item $\alpha_{k} \geq p_{i}$ per ogni $k \in [0,j-1]$ e $k \neq i$
+					\item $\exists m_{k'} \geq p_{k'}$ con $k' \in [j+1,n]$ e $k' \neq i$
+				\end{enumerate}  
+				e genera $\alpha_{j}= p_{j} -\epsilon$.\\ 
+			\end{enumerate}  
+			
+			
 \end{itemize}
 
 \subsection{Generazione di RFD}
