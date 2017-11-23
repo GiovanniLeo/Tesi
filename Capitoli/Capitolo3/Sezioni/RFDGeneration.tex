@@ -38,7 +38,7 @@ L'idea di base è una volta che ho trovato un minimo per un cluster, devo genera
 			(X_{1})_{(\leq \alpha_{2})} (X_{2})_{(\leq m_{2}-\epsilon)}\rightarrow A_{(\leq next(k))}
 			\end{equation}
 		il tutto è possibile se $\alpha_{j}$(in questo caso $j=1,2$) esiste. A questo punto devo determinare $\alpha_{j}$ per un $X_{j}$ di cui viene fatto il dicovery secondo $m_{i}$ di $X_{i}$ ($j=1,2$, $i=1,2$ in particolare quando $j=1$, $i=2$ e viceversa)per un dato pattern di tuple $t$.\\
-		Consideriamo i pattern di tuple non dominanti $S=t_{1},...,t_{n}$ con $t_{l}\neq t$ per $l=1,...,n$.\\
+		Consideriamo i pattern di tuple non dominanti $S=t_{1},\dots,t_{n}$ con $t_{l}\neq t$ per $l=1,\dots,n$.\\
 		Se esiste, trova il minimo valore $p_{j}$ del pattern di tuple $t_{l}$ tale che
 			\begin{enumerate}
 				\item  $m_{j}<p_{j}$, e
@@ -46,15 +46,15 @@ L'idea di base è una volta che ho trovato un minimo per un cluster, devo genera
 			\end{enumerate}  
 		e genera $\alpha_{j}= p_{j} -\epsilon$.\\ In altre parole il minimo valore fra questi è dominato da $m_{i-\epsilon}$
 		\item 
-			\textbf{Caso con $|X|=n$:} Dato un \textit{clusterID} $k>0$ dell'attributo $A$, se esiste trova le tuple $(m_{1},...,m_{n})$ non dominanti rispetto all'insieme di tuple \\$S=nonDominating(k$ and $prev(k))$, quindi $(\alpha_{1},...,\alpha_{i-1},m_{i-\epsilon},\alpha_{i+1},...,\alpha_{n})$ rappresenta una delle migliori soglie per il cluster $next(k)$ per ogni $i=1,...,n$.  \\
+			\textbf{Caso con $|X|=n$:} Dato un \textit{clusterID} $k>0$ dell'attributo $A$, se esiste trova le tuple $(m_{1},\dots,m_{n})$ non dominanti rispetto all'insieme di tuple \\$S=nonDominating(k$ and $prev(k))$, quindi $(\alpha_{1},\dots,\alpha_{i-1},m_{i-\epsilon},\alpha_{i+1},\dots,\alpha_{n})$ rappresenta una delle migliori soglie per il cluster $next(k)$ per ogni $i=1,\dots,n$.  \\
 			Se $m_{i} >0$ genera
 			\begin{equation*}
-				(X_{1})_{(\leq \alpha_{1})},...,(X_{i-1})_{(\leq \alpha_{i-1})},(X_{i})_{(\leq m_{i-\epsilon})},(X_{i+1})_{(\leq \alpha_{i+1})},...,(X_{n})_{(\leq \alpha_{n})} \rightarrow (A)_{(\leq next(k))}
+				(X_{1})_{(\leq \alpha_{1})},\dots,(X_{i-1})_{(\leq \alpha_{i-1})},(X_{i})_{(\leq m_{i-\epsilon})},(X_{i+1})_{(\leq \alpha_{i+1})},\dots,(X_{n})_{(\leq \alpha_{n})} \rightarrow (A)_{(\leq next(k))}
 			\end{equation*}
-			il tutto è possibile come nel caso precedente se tutti gli $\alpha_{j}$ esistono.Questo caso è molto particolare poiché per determinare gli $\alpha_{j}$(l'idea formale è identica al caso in cui  $|X|=2$ con l'unica differenza che $j=1,...,n$, $i=1,...,n$) dobbiamo distinguere due sotto casi:
+			il tutto è possibile come nel caso precedente se tutti gli $\alpha_{j}$ esistono.Questo caso è molto particolare poiché per determinare gli $\alpha_{j}$(l'idea formale è identica al caso in cui  $|X|=2$ con l'unica differenza che $j=1,\dots,n$, $i=1,\dots,n$) dobbiamo distinguere due sotto casi:
 				\begin{enumerate}
-				\item  \textbf{Caso 1:} Se $(m_{1},...,m_{n})$ è un pattern dominante ovvero tale pattern è ammissibile e minimale.
-					Consideriamo i pattern di tuple non dominanti $S=t_{1},...,t_{n}$ con $t_{l}\neq t$ per $l=1,...,n$.\\
+				\item  \textbf{Caso 1:} Se $(m_{1},\dots,m_{n})$ è un pattern dominante ovvero tale pattern è ammissibile e minimale.
+					Consideriamo i pattern di tuple non dominanti $S=t_{1},\dots,t_{n}$ con $t_{l}\neq t$ per $l=1,\dots,n$.\\
 				Se esiste, trova il minimo valore $p_{j}$ del pattern di tuple $t_{l}$ tale che
 				\begin{enumerate}
 					\item  $m_{j}<p_{j}$, 
@@ -64,8 +64,8 @@ L'idea di base è una volta che ho trovato un minimo per un cluster, devo genera
 				\end{enumerate}  
 				e genera $\alpha_{j}= p_{j} -\epsilon$.\\
 				 
-				\item  \textbf{Caso 2:} Se $(m_{1},...,m_{n})$ è un pattern non dominante ovvero tale pattern è ammissibile.
-				Consideriamo i pattern di tuple non dominanti $S=t_{1},...,t_{n}$ con $t_{l}\neq t$ per $l=1,...,n$.\\
+				\item  \textbf{Caso 2:} Se $(m_{1},\dots,m_{n})$ è un pattern non dominante ovvero tale pattern è ammissibile.
+				Consideriamo i pattern di tuple non dominanti $S=t_{1},\dots,t_{n}$ con $t_{l}\neq t$ per $l=1,\dots,n$.\\
 				Se esiste, trova il minimo valore $p_{j}$ del pattern di tuple $t_{l}$ tale che
 				\begin{enumerate}
 					\item  $m_{j}<p_{j}$, 
@@ -74,9 +74,16 @@ L'idea di base è una volta che ho trovato un minimo per un cluster, devo genera
 					\item $\exists m_{k'} \geq p_{k'}$ con $k' \in [j+1,n]$ e $k' \neq i$
 				\end{enumerate}  
 				e genera $\alpha_{j}= p_{j} -\epsilon$.\\ 
-			\end{enumerate}  
-			
-			
+			\end{enumerate}  		
 \end{itemize}
 
 \subsection{Generazione di RFD}
+L'algoritmo sapendo di avere a disposizione un insieme di sottopattern minimali $S_{k}$, tali $S_{k}$ sono ottenuti dalla fase precedete(\textit{Minimality}). Inoltre $S_{k}$ si riferisce ad un insieme di attributi $(A_{1},\dots,A_{k})$ \\
+Per ogni $S_{k}$, siamo nel caso in cui i sottopattern dominano, a questo punto una volta determinate le RFD thresholds per $S_{k}$(ovvero tutte le possibili dipendenze). L'algoritmo va \textit{Superset} di $S_{k}$, ovvero consideriamo $((A_{1},\dots,A_{k}),A_{h})$ tale che $A_{h} \neq A_{1},\dots,A_{k}$ e prova il \textit{Superset}.\\ 
+L'algoritmo per provare il \textit{Superset} deve sostanzialmente fare 3 steps:
+\begin{enumerate}
+	\item Verifica se è ammissibile, in caso posistivo si va avanti e in caso conrario non si va avanti.
+	\item Genera le RFD partendo dal pattern ammissibile. 
+	\item Se nello step precedente abbiamo generato almeno una RFD  allora è utile considerare anche il \textit{Superset} di questo pattern considerato, ovvero $((A_{1},\dots,A_{k}),A_{h},A_{i})$ con $A_{h},A_{i} \neq A_{1},\dots,A_{k}$.
+\end{enumerate}
+Tale algoritmo si ferma quando non riesce a generare più RFD. Inoltre nella generazione delle RFD possono esserci sia casi in cui i sottopattern dominano e casi in cui i sottopattern non dominano.
