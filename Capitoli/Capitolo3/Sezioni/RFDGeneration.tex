@@ -1,24 +1,25 @@
 
 \section{Feasibility e Minimality}
-La fase di \textit{Feasibility} sottopone i pattern ad un test e restituisce l'insieme dei pattern che li hanno superati. Ce ne sono tanti quanti sono gli RHS. Invece la fase si \textit{Minimality} restituisce in output un certo numero di sottopattern minimi.
+La fase di \textit{Feasibility} sottopone i pattern ad un test e restituisce l'insieme dei pattern che li hanno superati. Ce ne sono tanti quanti sono gli RHS. Invece la fase si \textit{Minimality} restituisce in output un certo numero di sotto-pattern minimi.
 \section{RFD Generation}
 \subsection{Nozioni Preliminari}
-Dalla fase di \textit{Minimality} si otterranno un certo numero di sottopattern minimi(ovvero minimali\footnote{Non è possibile eliminare nessun attributo da tale pattern poiché eliminandolo la distanza di un attributo diventa dominante.} e ammissibili\footnote{Tali pattern non dominano altri pattern.}) i quali possono essere denominati $S_{k}$. Essendo che ogni RHS contiene un certo numero di $C_{i}$\footnote{Gli insiemi $C_{i}$ sono l'output della fase di  \textit{Feasibility}.} (con $i=1,\dots,m$)  dove ogni $C_{i}$ contiene un certo numero di pattern $P_{j}$ (con $j = 1,\dots,h$) e per ognuno di questi pattern si otterrà un $S_{k}$
+L'idea di questa fase è di determinare le soglie ottime per la generazione delle RFD.
+Dalla fase di \textit{Minimality} si otterranno un certo numero di sotto-pattern minimi(ovvero minimali\footnote{Se esiste almeno un sotto-pattern di $S_{k}$ che non è ammissibile} e ammissibili\footnote{Tali pattern non dominano altri pattern.}) i quali possono essere denominati $S_{k}$. In particolare ogni RHS contiene un certo numero di $C_{i}$\footnote{Gli insiemi $C_{i}$ sono l'output della fase di  \textit{Feasibility}.} (con $i=1,\dots,m$)  dove ogni $C_{i}$ contiene un certo numero di pattern $P_{j}$ (con $j = 1,\dots,h$) e per ognuno di questi pattern si otterrà un insieme di $S_{k}$, dalla fase di \textit{Minimality}.
 \subsection{Identificazione di soglie ottime}
-L'idea generale è quella di trovare i più grandi pattern di thresholds tali che questi non dominano i pattern che non dominano. Quindi dato un $S_{k}$ ammissibile dobbiamo generare le soglie ottime.\\
-L'idea di base è una volta che ho trovato un minimo per un cluster, devo generare le RFD per il cluster successivo, poiché una volta raggiunto il minimo viene trovata una violazione alla dipendenza candidata questo implica che la soglia valida per il cluster successivo non deve raggiunge il minimo. La regola generale è che ogni volta che trova una coppia che è simile sull' LHS(in questa sezione lo chiameremo $X$) questa deve essere simile secondo quella soglia sull'RHS. Possiamo distinguere 3 casi.
+L'idea generale è quella di trovare i più grandi pattern di threshold che non dominano i sotto-pattern minimali in un determinato insieme $C_{i}$. Tali threshold rappresentano soglie ottime per il cluster successivo ($C_{i-1}$) . Per ogni $S_{k}$ ammissibile, l'obiettivo di questa fase è quello di generare soglie ottime.\\
+In particolare una volta che ho trovato un minimo per un cluster, devo generare le RFD per il cluster successivo, consideriamo un minimo per un determinato cluster $C_{i}$, una dipendenza valida per il cluster successivo non dovrà raggiungere tale minimo altrimenti la dipendenza verrebbe violata. Infatti la regola generale che indica la validità di una dipendenza $X \rightarrow Y$ è che presa una qualsiasi coppia dell'istanza $r$ se questa è simile su $X$\footnote{Indica l'LHS} allora deve essere simile anche su $Y$\footnote{Indica l'RHS}. Possiamo distinguere 3 casi.
 \begin{itemize}
 	\item 
 		\textbf{Caso base:} Consideriamo un unico attributo candidato per $X$($|X|= 1$).\\
 		Dato un \textit{clusterID} $k>0$ dell'attributo $A$, se esiste trova il minimo valore $m$ tale che 
 			\begin{equation}
-				m=min(k)<min(prev(k)\footnote{Indica il \textit{clusterID} precedente}) 
+				m=min(k)<min(prev(k)\footnote{Indica il \textit{clusterID} precedente(in senso decrescente)}) 
 			\end{equation}
-		$(m-\epsilon)$ rappresenta la migliore soglia per il cluster $next(k)$\footnote{Indica il \textit{clusterID} successivo}, in questo caso $\epsilon = 1$. Se $m > 0$ (non avrebbe senso imporre che la soglia sia minore o uguale ad un numero negativo) allora genero 
+		$(m-\epsilon)$ rappresenta la migliore soglia per il cluster $next(k)$\footnote{Indica il \textit{clusterID} successivo(in senso decrescente)}. Se $m > 0$\footnote{Non avrebbe senso imporre che la soglia sia minore o uguale ad un numero negativo} allora genero 
 			\begin{equation}
 			 X_{(\leq m-\epsilon)} \rightarrow A_{(\leq next(k))}
 			\end{equation}
-		nel caso in cui $m=min(prev(k))$ devo aggiornare 
+		Tuttavia durante la ricerca può capitare che un minimo per un \\ \textit{ClusterID}, $m=min(prev(k))$ allora devo aggiornare 
 			\begin{center}
 			$X_{(\leq m-\epsilon)} \rightarrow A_{(\leq k)}$
 			in $ X_{(\leq m-\epsilon)} \rightarrow A_{(\leq next(k))}$
@@ -26,35 +27,35 @@ L'idea di base è una volta che ho trovato un minimo per un cluster, devo genera
 		in altre parole quando ho due o più RFD sullo stesso LHS devo scegliere quella con RHS minore.
 	\item 
 		\textbf{Caso con $|X|=2$:} Dato un \textit{clusterID} $k>0$ dell'attributo $A$, se esiste trova le coppie $(m_{1},m_{2})$ non dominanti rispetto all'insieme di tuple \\$S=nonDominating(k)$, quindi
-		$(m_{1}-\epsilon,\alpha_{2})$ rappresenta una delle migliori soglie per il cluster $next(k)$.\\
-		Se $m_{1}>0$ genera
+		$(m_{1}-\epsilon,\alpha_{2})$ e $(\alpha_{1},m_{2}-\epsilon)$ rappresentano due delle migliori soglie per il cluster $next(k)$.\\
+		In particolare se $m_{1}>0$ genera
 			\begin{equation}
-			(X_{1})_{(\leq m_{1}-\epsilon)} (X_{2})_{(\leq \alpha_{2})}\rightarrow A_{(\leq next(k))}
+			X_{1_{(\leq m_{1}-\epsilon)}} X_{2_{(\leq \alpha_{2})}}\rightarrow A_{(\leq next(k))}
 			\end{equation}
 		invece,
-		$(\alpha_{1},m_{2}-\epsilon)$ rappresenta una delle migliori soglie per il cluster $next(k)$.\\
-		Se $m_{2}>0$ genera
+		se $m_{2}>0$ genera
 			\begin{equation}
-			(X_{1})_{(\leq \alpha_{2})} (X_{2})_{(\leq m_{2}-\epsilon)}\rightarrow A_{(\leq next(k))}
+			X_{1_{(\leq \alpha_{2})}} X_{2_{(\leq m_{2}-\epsilon)}}\rightarrow A_{(\leq next(k))}
 			\end{equation}
-		il tutto è possibile se $\alpha_{j}$(in questo caso $j=1,2$) esiste. A questo punto devo determinare $\alpha_{j}$ per un $X_{j}$ di cui viene fatto il dicovery secondo $m_{i}$ di $X_{i}$ ($j=1,2$, $i=1,2$ in particolare quando $j=1$, $i=2$ e viceversa)per un dato pattern di tuple $t$.\\
+		il tutto è possibile se $\alpha_{j}$(in questo caso $j=1,2$) esiste. A questo punto devo determinare $\alpha_{j}$ per un $X_{j}$ di cui viene fatto il dicovery secondo $m_{i}$ di $X_{i}$ ($j=1,2$, $i=1,2$ )per un dato sotto-pattern di distanza  $t$.
+		In particolare $t$ rappresenta il risultato della di $P_{j}$ su $S_{k}$($\prod_{S_{k}}P_{j}$)\\
 		Consideriamo i pattern di tuple non dominanti $S=t_{1},\dots,t_{n}$ con $t_{l}\neq t$ per $l=1,\dots,n$.\\
 		Se esiste, trova il minimo valore $p_{j}$ del pattern di tuple $t_{l}$ tale che
 			\begin{enumerate}
 				\item  $m_{j}<p_{j}$, e
 				\item $m_{i-\epsilon} \geq p_{i}$ con $p_{i}=t_{l}[X_{i}]$
 			\end{enumerate}  
-		e genera $\alpha_{j}= p_{j} -\epsilon$.\\ In altre parole il minimo valore fra questi è dominato da $m_{i-\epsilon}$
+		e genera $\alpha_{j}= p_{j} -\epsilon$.\\ In altre parole $p_{j}$ è il minimo valore fra tutti quelli dominati da $m_{i-\epsilon}$
 		\item 
-			\textbf{Caso con $|X|=n$:} Dato un \textit{clusterID} $k>0$ dell'attributo $A$, se esiste trova le tuple $(m_{1},\dots,m_{n})$ non dominanti rispetto all'insieme di tuple \\$S=nonDominating(k$ and $prev(k))$, quindi $(\alpha_{1},\dots,\alpha_{i-1},m_{i-\epsilon},\alpha_{i+1},\dots,\alpha_{n})$ rappresenta una delle migliori soglie per il cluster $next(k)$ per ogni $i=1,\dots,n$.  \\
+			\textbf{Caso con $|X|=n$:} Dato un \textit{clusterID} $k>0$ dell'attributo $A$, se esistono trova le tuple $(m_{1},\dots,m_{n})$ non dominanti rispetto all'insieme di tuple \\$S=nonDominating(k$ and $prev(k))$, quindi $(\alpha_{1},\dots,\alpha_{i-1},m_{i-\epsilon},\alpha_{i+1},\dots,\alpha_{n})$ rappresenta una delle migliori soglie per il cluster $next(k)$ per ogni $i=1,\dots,n$.  \\
 			Se $m_{i} >0$ genera
 			\begin{equation*}
-				(X_{1})_{(\leq \alpha_{1})},\dots,(X_{i-1})_{(\leq \alpha_{i-1})},(X_{i})_{(\leq m_{i-\epsilon})},(X_{i+1})_{(\leq \alpha_{i+1})},\dots,(X_{n})_{(\leq \alpha_{n})} \rightarrow (A)_{(\leq next(k))}
+				X_{1_{(\leq \alpha_{1})}},\dots,X_{i-1_{(\leq \alpha_{i-1})}},X_{i_{(\leq m_{i-\epsilon})}},X_{i+1_{(\leq \alpha_{i+1})}},\dots,X_{n_{(\leq \alpha_{n})}} \rightarrow A_{(\leq next(k))}
 			\end{equation*}
-			il tutto è possibile come nel caso precedente se tutti gli $\alpha_{j}$ esistono.Questo caso è molto particolare poiché per determinare gli $\alpha_{j}$(l'idea formale è identica al caso in cui  $|X|=2$ con l'unica differenza che $j=1,\dots,n$, $i=1,\dots,n$) dobbiamo distinguere due sotto casi:
+			il tutto è possibile come nel caso precedente se tutti gli $\alpha_{j}$ esistono.Questo caso è molto particolare poiché per determinare gli $\alpha_{j}$( $j=1,\dots,n$, $j\neq i$) dobbiamo distinguere due sotto casi:
 				\begin{enumerate}
-				\item  \textbf{Caso 1:} Se $(m_{1},\dots,m_{n})$ è un pattern dominante ovvero tale pattern è ammissibile e minimale.
-					Consideriamo i pattern di tuple non dominanti $S=t_{1},\dots,t_{n}$ con $t_{l}\neq t$ per $l=1,\dots,n$.\\
+				\item  \textbf{Caso 1:} Se $(m_{1},\dots,m_{i-1},m_{i+1},\dots,m_{n})$ è un pattern dominante.
+					Consideriamo tutti i pattern di tuple non dominanti $t_{l}$ con $t_{l}\neq t$ per $l=1,\dots,n$.\\
 				Se esiste, trova il minimo valore $p_{j}$ del pattern di tuple $t_{l}$ tale che
 				\begin{enumerate}
 					\item  $m_{j}<p_{j}$, 
@@ -64,8 +65,8 @@ L'idea di base è una volta che ho trovato un minimo per un cluster, devo genera
 				\end{enumerate}  
 				e genera $\alpha_{j}= p_{j} -\epsilon$.\\
 				 
-				\item  \textbf{Caso 2:} Se $(m_{1},\dots,m_{n})$ è un pattern non dominante ovvero tale pattern è ammissibile.
-				Consideriamo i pattern di tuple non dominanti $S=t_{1},\dots,t_{n}$ con $t_{l}\neq t$ per $l=1,\dots,n$.\\
+				\item  \textbf{Caso 2:} Se $(m_{1},\dots,m_{i-1},m_{i+1},\dots,m_{n})$ è un pattern non dominante ovvero tale pattern è ammissibile.
+				Consideriamo tutti i pattern di tuple non dominanti $t_{l}$ con $t_{l}\neq t$ per $l=1,\dots,n$.\\
 				Se esiste, trova il minimo valore $p_{j}$ del pattern di tuple $t_{l}$ tale che
 				\begin{enumerate}
 					\item  $m_{j}<p_{j}$, 
@@ -78,12 +79,12 @@ L'idea di base è una volta che ho trovato un minimo per un cluster, devo genera
 \end{itemize}
 
 \subsection{Generazione di RFD}
-L'algoritmo sapendo di avere a disposizione un insieme di sottopattern minimali $S_{k}$, tali $S_{k}$ sono ottenuti dalla fase precedete(\textit{Minimality}). Inoltre $S_{k}$ si riferisce ad un insieme di attributi $(A_{1},\dots,A_{k})$ \\
-Per ogni $S_{k}$, siamo nel caso in cui i sottopattern dominano, a questo punto una volta determinate le RFD thresholds per $S_{k}$(ovvero tutte le possibili dipendenze). L'algoritmo va \textit{Superset} di $S_{k}$, ovvero consideriamo $((A_{1},\dots,A_{k}),A_{h})$ tale che $A_{h} \neq A_{1},\dots,A_{k}$ e prova il \textit{Superset}.\\ 
+L'algoritmo sapendo di avere a disposizione un insieme di sotto-pattern minimali $S_{k}$, tali $S_{k}$ sono ottenuti dalla fase precedete(\textit{Minimality}). Inoltre $S_{k}$ si riferisce ad un insieme di attributi $(A_{1},\dots,A_{k})$ \\
+Per ogni $S_{k}$, siamo nel caso in cui i sotto-pattern dominano, a questo punto una volta determinate le RFD thresholds per $S_{k}$(ovvero tutte le possibili dipendenze). L'algoritmo valuta i \textit{Superset} di $S_{k}$, ovvero consideriamo $((A_{1},\dots,A_{k}),A_{h})$ tale che $A_{h} \neq A_{1},\dots,A_{k}$ e prova il \textit{Superset}.\\ 
 L'algoritmo per provare il \textit{Superset} deve sostanzialmente fare 3 steps:
 \begin{enumerate}
 	\item Verifica se è ammissibile, in caso posistivo si va avanti e in caso conrario non si va avanti.
 	\item Genera le RFD partendo dal pattern ammissibile. 
 	\item Se nello step precedente abbiamo generato almeno una RFD  allora è utile considerare anche il \textit{Superset} di questo pattern considerato, ovvero $((A_{1},\dots,A_{k}),A_{h},A_{i})$ con $A_{h},A_{i} \neq A_{1},\dots,A_{k}$.
 \end{enumerate}
-Tale algoritmo si ferma quando non riesce a generare più RFD. Inoltre nella generazione delle RFD possono esserci sia casi in cui i sottopattern dominano e casi in cui i sottopattern non dominano.
+Tale algoritmo si ferma quando non riesce a generare più RFD. 
