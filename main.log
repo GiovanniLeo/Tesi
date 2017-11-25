@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.7.12)  23 NOV 2017 13:55
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (MiKTeX 2.9.6350 64-bit) (preloaded format=pdflatex 2017.7.12)  25 NOV 2017 18:57
 entering extended mode
 **./main.tex
 (main.tex
@@ -1414,9 +1414,9 @@ Package pdftex.def Info: Immagini/GraficoEchocardiogram.png used on input line
 (Capitoli/Capitolo5/Sezioni/LavoriFuturi.tex [47 <./Immagini/GraficoEchocardiog
 ram.png>])) [48] [49]
 Capitolo 6.
-(Capitoli/Capitolo6/Ringraziamenti.tex) (main.bbl [50
+(Capitoli/Capitolo6/Ringraziamenti.tex) [50
 
-] [51])
+] (main.bbl [51])
 Package atveryend Info: Empty hook `BeforeClearDocument' on input line 45.
  [52
 
@@ -1505,9 +1505,9 @@ c/amsfonts/cm/cmr6.pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts
 .pfb><C:/Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy6.pfb><C:/
 Program Files/MiKTeX 2.9/fonts/type1/public/amsfonts/cm/cmsy8.pfb><C:/Program F
 iles/MiKTeX 2.9/fonts/type1/public/amsfonts/symbols/msbm10.pfb>
-Output written on main.pdf (62 pages, 753402 bytes).
+Output written on main.pdf (62 pages, 754326 bytes).
 PDF statistics:
- 1337 PDF objects out of 1440 (max. 8388607)
+ 1338 PDF objects out of 1440 (max. 8388607)
  175 named destinations out of 1000 (max. 500000)
  383 words of extra memory for PDF output out of 10000 (max. 10000000)
 
