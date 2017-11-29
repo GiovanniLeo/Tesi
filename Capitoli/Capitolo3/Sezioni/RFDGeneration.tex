@@ -24,7 +24,8 @@ In particolare una volta che ho trovato un minimo per un cluster, devo generare 
 			$X_{(\leq m-\epsilon)} \rightarrow A_{(\leq k)}$
 			in $ X_{(\leq m-\epsilon)} \rightarrow A_{(\leq next(k))}$
 			\end{center}
-		in altre parole quando ho due o più RFD sullo stesso LHS devo scegliere quella con RHS minore.
+		in altre parole quando ho due o più RFD sullo stesso LHS devo scegliere quella con RHS minore.\\
+		\import{Capitoli/Capitolo3/Sezioni/Esempi/}{esempioCaso1}
 	\item 
 		\textbf{Caso con $|X|=2$:} Dato un \textit{clusterID} $k>0$ dell'attributo $A$, se esiste trova le coppie $(m_{1},m_{2})$ non dominanti rispetto all'insieme di tuple \\$S=nonDominating(k)$, quindi
 		$(m_{1}-\epsilon,\alpha_{2})$ e $(\alpha_{1},m_{2}-\epsilon)$ rappresentano due delle migliori soglie per il cluster $next(k)$.\\
@@ -46,6 +47,7 @@ In particolare una volta che ho trovato un minimo per un cluster, devo generare 
 				\item $m_{i-\epsilon} \geq p_{i}$ con $p_{i}=t_{l}[X_{i}]$
 			\end{enumerate}  
 		e genera $\alpha_{j}= p_{j} -\epsilon$.\\ In altre parole $p_{j}$ è il minimo valore fra tutti quelli dominati da $m_{i-\epsilon}$
+		\import{Capitoli/Capitolo3/Sezioni/Esempi/}{esempioCaso2}
 		\item 
 			\textbf{Caso con $|X|=n$:} Dato un \textit{clusterID} $k>0$ dell'attributo $A$, se esistono trova le tuple $(m_{1},\dots,m_{n})$ non dominanti rispetto all'insieme di tuple \\$S=nonDominating(k$ and $prev(k))$, quindi $(\alpha_{1},\dots,\alpha_{i-1},m_{i-\epsilon},\alpha_{i+1},\dots,\alpha_{n})$ rappresenta una delle migliori soglie per il cluster $next(k)$ per ogni $i=1,\dots,n$.  \\
 			Se $m_{i} >0$ genera
