@@ -89,4 +89,92 @@ L'algoritmo per provare il \textit{Superset} deve sostanzialmente fare 3 steps:
 	\item Genera le RFD partendo dal pattern ammissibile. 
 	\item Se nello step precedente abbiamo generato almeno una RFD  allora è utile considerare anche il \textit{Superset} di questo pattern considerato, ovvero $((A_{1},\dots,A_{k}),A_{h},A_{i})$ con $A_{h},A_{i} \neq A_{1},\dots,A_{k}$.
 \end{enumerate}
-Tale algoritmo si ferma quando non riesce a generare più RFD. 
+Tale algoritmo si ferma quando non riesce a generare più RFD.
+Di seguito mostriamo gli pseudo-codici che riguardano l'algoritmo appena descritto. 
+
+\begin{algorithm}
+	\caption{FindMinimum(Set \textbf{C}, int $\pmb{m_{i}}$, pattern tuple  $\pmb{S_{k}}$, column \textbf{i}, column \textbf{j}, List $\pmb{\alpha}$, column combination \textbf{\textit{cc}})}\label{FindMinimum}
+	\begin{algorithmic}[1]
+	\State \textbf{\textit{min}} $\gets$ -1
+	\State $\pmb{p_{j}}$
+	\State subPattern $\pmb{S_{l}}$
+	\State $\pmb{S_{k'}} \gets$ null
+	\State column combination \textbf{\textit{subCC}}
+	\State boolean \textbf{\textit{exist }} $\gets$ false
+	
+	\State \textbf{\textit{subCC}} $\gets$ \textbf{\textit{cc}}.GetPatterCombinationWithout(\textbf{\textit{i}})
+	\State  $\pmb{S_{k'}} \gets$ $\pmb{t_{l}}$.GetPattern(\textbf{\textit{subCC}})
+		\If{$\pmb{S_{k'}}$.IsNonDominatingPattern()}
+			\State \textbf{\textit{exist }} $\gets$ true
+		\EndIf
+			\For{\textbf{each} pattern tuple $\pmb{t_{l}}$ in \textbf{\textit{C}} with $\pmb{t_{l}}$ != $\pmb{t_{p}}$ }
+				\State $\pmb{s_{l}} \gets$ $\pmb{t_{l}}$.GetPattern(\textbf{\textit{cc}})
+				\State $\pmb{p_{j}} \gets$ $\pmb{s_{l}}$.GetElement(\textbf{\textit{j}})
+				\If{\textbf{\textit{exist}} = true \&\& (\textbf{\textit{min}} != -1 || \textbf{\textit{min}}$>\pmb{p_{j}}$)}
+					\If{VerifyPropiertiesWithExist($\pmb{S_{k}}$, $\pmb{S_{l}}$, \textbf{\textit{i}},\textbf{\textit{j}}, $\pmb{\alpha}$) = true}
+					\State \textbf{\textit{min}} $\gets$ $\pmb{p_{j}}$
+					\ElsIf{VerifyPropierties($\pmb{S_{k}}$, $\pmb{S_{l}}$, \textbf{\textit{i}},\textbf{\textit{j}}, $\pmb{\alpha}$) =  true}
+						\State \textbf{\textit{min}} $\gets$ $\pmb{p_{j}}$
+					\EndIf
+					\State	\textbf{\textit{exist}} = true
+ 				\EndIf
+			\EndFor
+	\end{algorithmic}
+\end{algorithm}
+
+\begin{algorithm}
+	\caption{RFD Generation(Set \textbf{C}, pattern tuple  $\pmb{t_{p}}$, Set \textbf{results}, Set \textbf{*rfd})}\label{RFD_Generation}
+	\begin{algorithmic}[1]
+		\State subPattern $\pmb{S_{k}} \gets$ null
+		\State List $\pmb{definedThresholds } \gets$ null
+		\State int\textit{\textbf{ minThreshold}}
+		\State rfd \textit{\textbf{newRFD}}
+		\State column combination[ ] $\pmb{super} \gets$ null
+		\State boolean \textit{\textbf{admissible}}
+		\State boolean \textit{\textbf{superset}}
+		\For{\textbf{each} column combination \textit{\textbf{cc}} in \textit{\textbf{results}}}
+			\State $\pmb{S_{k}} \gets \pmb{t_{p}.}$GetPattern(\textbf{\textit{cc}})
+			\State \textbf{\textit{superset}} $\gets$ false
+		
+			\For{\textbf{each} column \textbf{\textit{i}} in $\pmb{S_{k}}$}
+				\State $\pmb{m_{i}}\gets  \pmb{t_{p}.}$GetElement(\textbf{\textit{i}}) 
+				\State \textbf{\textit{admissible }} $\gets$ true
+				\If{$\pmb{m_{i}}>0$}
+						\For{\textbf{each} column \textbf{\textit{j}} in $\pmb{S_{k}}$}
+							\If{\textbf{\textit{j}} = \textbf{\textit{i}}}
+								\State \textbf{\textit{definedThresholds}}.Add(\textbf{\textit{j}},$\pmb{m_{i}}-1$)
+								\Else
+									\State \textbf{\textit{minThresholds}}.FindMinimum(\textbf{\textit{C}},$\pmb{m_{i}}$,$\pmb{S_{k}}$,\textbf{\textit{j}},\textbf{\textit{definedThresholds}})
+									\If{\textbf{\textit{minThresholds}} != -1}
+										\State	\textit{\textbf{definedThresholds}}.Add(\textbf{\textit{j}},\textbf{\textit{minThresholds }}-1)
+										\Else
+											\State \textbf{\textit{admissible }} $\gets$ false
+											\State \textbf{\textit{break}}		
+									\EndIf
+							\EndIf
+						\EndFor
+						\If{\textbf{\textit{admissible }} = true}
+							\State \textbf{\textit{newRFD }} $\gets$ CreateRFD(\textbf{\textit{definedThresholds}}.GetNext(\textbf{\textit{C}}))
+							\If{\textbf{\textit{rfd}}.Contains(\textbf{\textit{definedThresholds}}) = true}
+								\State \textbf{\textit{rfd}}.RemoveRFDsOf(\textbf{\textit{definedThresholds}})
+							\EndIf
+							\State \textbf{\textit{rfd}}.Add(\textbf{\textit{newRFD}})
+							\State \textbf{\textit{superset}} = true
+						\EndIf
+				\EndIf
+	 		\EndFor
+	 		\If{\textbf{\textit{superset}} = true}
+	 			\State \textbf{\textit{super}} $\gets$ true
+	 			$\pmb{t_{p}}$.GetNonDominatingSuperPattern(\textbf{\textit{cc}})
+	 			\If{\textbf{\textit{super}} != null}
+	 				\For{\textbf{each} column  combination \textbf{\textit{cc'}} in \textbf{\textit{super}}}
+	 					\State \textbf{\textit{results}}.Add(\textbf{\textit{cc'}})
+	 				\EndFor
+	 			\EndIf
+	 		\EndIf	
+		\EndFor
+	
+	\end{algorithmic}
+\end{algorithm}
+
+
