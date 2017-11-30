@@ -19,9 +19,11 @@
 \usepackage{algpseudocode}
 \usepackage{colortbl}
 \usepackage[bottom]{footmisc}
-
-\usepackage{hyperref}
 \usepackage{setspace}
+\usepackage{hyperref}
+\usepackage{titlesec} 
+\usepackage{lipsum}
+
 
 \newtheorem{theorem}{Teorema}
 \newtheorem{lemma}{Lemma}
@@ -33,10 +35,8 @@
 
 %formato dei titoli di ogni capitolo
 \usepackage{titlesec}
-\titleformat{\chapter}[display]
-{\normalfont\huge\bfseries}{}{0pt}{\Huge}
-\titlespacing*{\chapter} {0pt}{90pt}{40pt}
-
+\usepackage{titlesec, blindtext, color}
+\import{Utility}{chapterFormat}
 %snippet di codice
 \usepackage{minted}
 \usemintedstyle{monokay}
