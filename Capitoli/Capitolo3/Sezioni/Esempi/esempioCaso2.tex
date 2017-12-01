@@ -39,8 +39,6 @@ Consideriamo a questo punto un esempio:
 		1,4 & 4 & 0 & 3 & 1\\
 		\rowfont{\color{gray}}
 		1,5 & 4 & 1 & 6 & 3 \\
-		
-		
 	\end{tabu}
 	\caption{Distance Matrix di esempio.}
 	\label{tab:Distance_Matrix_di_esempio}
@@ -51,7 +49,6 @@ Sia \textbf{$X$}=PresDate,RelDate \textbf{$A$}=ExeDate e \textbf{$\epsilon-step$
     $PresDate_{(\leq p_{1} - 1)} RelDate_{(\leq m_{2} - 1)}\rightarrow ExeDate_{(\leq next(k))}$
 \end{center}
 Sappiamo che la coppia minima la otteniamo dalla fase di \textit{Minimality} ed ad essa è associata un determinato pattern.
-Guardando nella tabella sottostante possiamo notare che la coppia $\{3,1\}$ evidenziata non è una coppia minima ma è una coppia che non domina e quindi non avendo altre coppie che non dominano non posso generare RFD. 
 \begin{table}[H]
 	\centering
 	\begin{tabu}{l l | l!{\color{red}\vrule} l l!{\color{red}\vrule}}
@@ -75,10 +72,12 @@ Guardando nella tabella sottostante possiamo notare che la coppia $\{3,1\}$ evid
 		\rowfont{\color{gray}}
 		1,5 & 4 & 1 & 6 & 3 \\	
 	\end{tabu}
+\caption{}
+\label{tab:Caso2_1}
 \end{table}
-Passando al cluster successivo possiamo notare che la coppia $\{3,1\}$ domina e quindi non viene considerata.
-Devo invece considerare $\{3,0\}$ e $\{2,1\}$ le quali non si dominano l'una con l'altra.
-Se a questo punto considero la coppia $\{3,0\}$ ovvero quella evidenziata nella tabella sottostante
+
+Guardando nella tabella\ref{tab:Caso2_1} possiamo notare che la coppia $\{3,1\}$ evidenziata  è una coppia che non domina, tuttavia non avendo altre coppie che non dominano non è possibile generare RFD. 
+
 \begin{table}[H]
 	\centering
 	\begin{tabu}{l l | l!{\color{red}\vrule} l l!{\color{red}\vrule}}
@@ -102,8 +101,14 @@ Se a questo punto considero la coppia $\{3,0\}$ ovvero quella evidenziata nella 
 		\rowfont{\color{gray}}
 		1,5 & 4 & 1 & 6 & 3 \\	
 	\end{tabu}
+\caption{}
+\label{tab:Caso2_2}
 \end{table}
-Allora secondo le regole viste in precedenza si ha che  che $m_{1} - 1 = 2$ e $p_{1} - 1 = - 1$(essendo $p_{1} = 0$) non potremmo generare nessuna RFD poiché $p_{1} - 1 < 0$. A questo punto devo andare a prendere tutti quei valori in cui $m_{1}$ è strettamente maggiore, si da il caso che in questo cluster 3 sia maggiore di 2. In questo caso $p_{2}=1$ il quale deve essere maggiore o uguale di $p_{1}$(in questo caso lo è) e $m_{1} - 1$ deve essere maggiore o uguale di $p_{2}$
+Passando al cluster successivo possiamo notare che la coppia $\{3,1\}$ domina e quindi non viene considerata.
+Devono essere invece considerare $\{3,0\}$ e $\{2,1\}$ le quali non sono domaninanti nel cluster $C_{3}$.
+Se a questo punto si considera la coppia $\{3,0\}$ ovvero quella evidenziata nella tabella\ref{tab:Caso2_2}.
+
+Allora secondo le regole viste in precedenza si ha che  che $m_{1} - 1 = 2$ e $p_{1} - 1 = - 1$(essendo $p_{1} = 0$) non potremmo generare nessuna RFD poiché $p_{1} - 1 < 0$. A questo punto si devono considerare tutti quei valori in cui $m_{1}$ è strettamente maggiore, si da il caso che in questo cluster 3 sia maggiore di 2. In questo caso $p_{2}=1$ il quale deve essere maggiore o uguale di $p_{1}$(in questo caso lo è) e $m_{1} - 1$ deve essere maggiore o uguale di $p_{2}$
 
 \begin{table}[H]
 	\centering

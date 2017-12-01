@@ -7,7 +7,7 @@ L'idea di questa fase è di determinare le soglie ottime per la generazione dell
 Dalla fase di \textit{Minimality} si otterranno un certo numero di sotto-pattern minimi(ovvero minimali\footnote{Se esiste almeno un sotto-pattern di $S_{k}$ che non è ammissibile} e ammissibili\footnote{Tali pattern non dominano altri pattern.}) i quali possono essere denominati $S_{k}$. In particolare ogni RHS contiene un certo numero di $C_{i}$\footnote{Gli insiemi $C_{i}$ sono l'output della fase di  \textit{Feasibility}.} (con $i=1,\dots,m$)  dove ogni $C_{i}$ contiene un certo numero di pattern $P_{j}$ (con $j = 1,\dots,h$) e per ognuno di questi pattern si otterrà un insieme di $S_{k}$, dalla fase di \textit{Minimality}.
 \subsection{Identificazione di soglie ottime}
 L'idea generale è quella di trovare i più grandi pattern di threshold che non dominano i sotto-pattern minimali in un determinato insieme $C_{i}$. Tali threshold rappresentano soglie ottime per il cluster successivo ($C_{i-1}$) . Per ogni $S_{k}$ ammissibile, l'obiettivo di questa fase è quello di generare soglie ottime.\\
-In particolare una volta che ho trovato un minimo per un cluster, devo generare le RFD per il cluster successivo, consideriamo un minimo per un determinato cluster $C_{i}$, una dipendenza valida per il cluster successivo non dovrà raggiungere tale minimo altrimenti la dipendenza verrebbe violata. Infatti la regola generale che indica la validità di una dipendenza $X \rightarrow Y$ è che presa una qualsiasi coppia dell'istanza $r$ se questa è simile su $X$\footnote{Indica l'LHS} allora deve essere simile anche su $Y$\footnote{Indica l'RHS}. Possiamo distinguere 3 casi.
+In particolare una volta trovato un minimo per un cluster, è necessario generare le RFD per il cluster successivo, consideriamo un minimo per un determinato cluster $C_{i}$, una dipendenza valida per il cluster successivo non dovrà raggiungere tale minimo altrimenti la dipendenza verrebbe violata. Infatti la regola generale che indica la validità di una dipendenza $X \rightarrow Y$ è che: presa una qualsiasi coppia dell'istanza $r$ se questa è simile su $X$\footnote{Indica l'LHS} allora deve essere simile anche su $Y$\footnote{Indica l'RHS}. Possiamo distinguere 3 casi.
 \begin{itemize}
 	\item 
 		\textbf{Caso base:} Consideriamo un unico attributo candidato per $X$($|X|= 1$).\\
@@ -15,20 +15,20 @@ In particolare una volta che ho trovato un minimo per un cluster, devo generare 
 			\begin{equation}
 				m=min(k)<min(prev(k)\footnote{Indica il \textit{clusterID} precedente(in senso decrescente)}) 
 			\end{equation}
-		$(m-\epsilon)$ rappresenta la migliore soglia per il cluster $next(k)$\footnote{Indica il \textit{clusterID} successivo(in senso decrescente)}. Se $m > 0$\footnote{Non avrebbe senso imporre che la soglia sia minore o uguale ad un numero negativo} allora genero 
+		$(m-\epsilon)$ rappresenta la migliore soglia per il cluster $next(k)$\footnote{Indica il \textit{clusterID} successivo(in senso decrescente)}. Se $m > 0$\footnote{Non avrebbe senso imporre che la soglia sia minore o uguale ad un numero negativo} allora viene generata 
 			\begin{equation}
 			 X_{(\leq m-\epsilon)} \rightarrow A_{(\leq next(k))}
 			\end{equation}
-		Tuttavia durante la ricerca può capitare che un minimo per un \\ \textit{ClusterID}, $m=min(prev(k))$ allora devo aggiornare 
+		Tuttavia durante la ricerca può capitare che un minimo per un \\ \textit{ClusterID}, $m=min(prev(k))$ allora  è necessario effettuare il seguente aggiornamento 
 			\begin{center}
 			$X_{(\leq m-\epsilon)} \rightarrow A_{(\leq k)}$
 			in $ X_{(\leq m-\epsilon)} \rightarrow A_{(\leq next(k))}$
 			\end{center}
-		in altre parole quando ho due o più RFD sullo stesso LHS devo scegliere quella con RHS minore.\\
+		in altre parole quando esistono più RFD sullo stesso LHS è necessario mantenere quella con RHS minore.\\
 		\import{Capitoli/Capitolo3/Sezioni/Esempi/}{esempioCaso1}
 	\item 
 		\textbf{Caso con $|X|=2$:} Dato un \textit{clusterID} $k>0$ dell'attributo $A$, se esiste trova le coppie $(m_{1},m_{2})$ non dominanti rispetto all'insieme di tuple \\$S=nonDominating(k)$, quindi
-		$(m_{1}-\epsilon,\alpha_{2})$ e $(\alpha_{1},m_{2}-\epsilon)$ rappresentano due delle migliori soglie per il cluster $next(k)$.\\
+		$(m_{1}-\epsilon,\alpha_{2})$ e $(\alpha_{1},m_{2}-\epsilon)$ rappresentano le possibili soglie da generare per il cluster $next(k)$.\\
 		In particolare se $m_{1}>0$ genera
 			\begin{equation}
 			X_{1_{(\leq m_{1}-\epsilon)}} X_{2_{(\leq \alpha_{2})}}\rightarrow A_{(\leq next(k))}
@@ -38,9 +38,9 @@ In particolare una volta che ho trovato un minimo per un cluster, devo generare 
 			\begin{equation}
 			X_{1_{(\leq \alpha_{2})}} X_{2_{(\leq m_{2}-\epsilon)}}\rightarrow A_{(\leq next(k))}
 			\end{equation}
-		il tutto è possibile se $\alpha_{j}$(in questo caso $j=1,2$) esiste. A questo punto devo determinare $\alpha_{j}$ per un $X_{j}$ di cui viene fatto il dicovery secondo $m_{i}$ di $X_{i}$ ($j=1,2$, $i=1,2$ )per un dato sotto-pattern di distanza  $t$.
-		In particolare $t$ rappresenta il risultato della di $P_{j}$ su $S_{k}$($\prod_{S_{k}}P_{j}$)\\
-		Consideriamo i pattern di tuple non dominanti $S=t_{1},\dots,t_{n}$ con $t_{l}\neq t$ per $l=1,\dots,n$.\\
+		il tutto è possibile se $\alpha_{j}$(in questo caso $j=1,2$) esiste. A questo è necessario determinare $\alpha_{j}$ per un $X_{j}$ di cui viene fatto il dicovery secondo $m_{i}$ di $X_{i}$ ($j=1,2$, $i=1,2$ )per un dato sotto-pattern di distanza  $t$.
+		In particolare $t$ rappresenta il risultato della proiezione di $P_{j}$ su $S_{k}$($\prod_{S_{k}}P_{j}$)\\
+		Consideriamo un insieme di pattern di tuple non dominanti $S=t_{1},\dots,t_{n}$ con $t_{l}\neq t$ per $l=1,\dots,n$.\\
 		Se esiste, trova il minimo valore $p_{j}$ del pattern di tuple $t_{l}$ tale che
 			\begin{enumerate}
 				\item  $m_{j}<p_{j}$, e
@@ -81,11 +81,11 @@ In particolare una volta che ho trovato un minimo per un cluster, devo generare 
 \end{itemize}
 
 \subsection{Generazione di RFD}
-L'algoritmo sapendo di avere a disposizione un insieme di sotto-pattern minimali $S_{k}$, tali $S_{k}$ sono ottenuti dalla fase precedete(\textit{Minimality}). Inoltre $S_{k}$ si riferisce ad un insieme di attributi $(A_{1},\dots,A_{k})$ \\
-Per ogni $S_{k}$, siamo nel caso in cui i sotto-pattern dominano, a questo punto una volta determinate le RFD thresholds per $S_{k}$(ovvero tutte le possibili dipendenze). L'algoritmo valuta i \textit{Superset} di $S_{k}$, ovvero consideriamo $((A_{1},\dots,A_{k}),A_{h})$ tale che $A_{h} \neq A_{1},\dots,A_{k}$ e prova il \textit{Superset}.\\ 
+Sapendo di avere a disposizione un insieme di sotto-pattern minimali $S_{k}$, tali $S_{k}$ sono ottenuti dalla fase precedete(\textit{Minimality}). Inoltre $S_{k}$ si riferisce ad un insieme di attributi $(A_{1},\dots,A_{k})$ \\
+Per ogni $S_{k}$, una volta determinate le RFD thresholds per $S_{k}$(ovvero tutte le possibili dipendenze). L'algoritmo valuta i \textit{Superset} di $S_{k}$, ovvero consideriamo $((A_{1},\dots,A_{k}),A_{h})$ tale che $A_{h} \neq A_{1},\dots,A_{k}$ e prova il \textit{Superset}.\\ 
 L'algoritmo per provare il \textit{Superset} deve sostanzialmente fare 3 steps:
 \begin{enumerate}
-	\item Verifica se è ammissibile, in caso posistivo si va avanti e in caso conrario non si va avanti.
+	\item Verifica se è ammissibile, in caso posistivo si va avanti e in caso contrario non si va avanti.
 	\item Genera le RFD partendo dal pattern ammissibile. 
 	\item Se nello step precedente abbiamo generato almeno una RFD  allora è utile considerare anche il \textit{Superset} di questo pattern considerato, ovvero $((A_{1},\dots,A_{k}),A_{h},A_{i})$ con $A_{h},A_{i} \neq A_{1},\dots,A_{k}$.
 \end{enumerate}
@@ -165,7 +165,7 @@ Di seguito mostriamo gli pseudo-codici che riguardano l'algoritmo appena descrit
 	 		\EndFor
 	 		\If{\textbf{\textit{superset}} = true}
 	 			\State \textbf{\textit{super}} $\gets$ true
-	 			$\pmb{t_{p}}$.GetNonDominatingSuperPattern(\textbf{\textit{cc}})
+	 			\State $\pmb{t_{p}}$.GetNonDominatingSuperPattern(\textbf{\textit{cc}})
 	 			\If{\textbf{\textit{super}} != null}
 	 				\For{\textbf{each} column  combination \textbf{\textit{cc'}} in \textbf{\textit{super}}}
 	 					\State \textbf{\textit{results}}.Add(\textbf{\textit{cc'}})

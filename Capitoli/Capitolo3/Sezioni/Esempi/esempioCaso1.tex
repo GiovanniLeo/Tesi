@@ -73,12 +73,14 @@ Sia \textbf{$X$}=PresDate, \textbf{$A$}=ExeDate e \textbf{$\epsilon-step$}=1. Al
 		\rowfont{\color{gray}}
 		1,5 & 4 & 1 & 6 & 3 \\	
 	\end{tabu}
+	\caption{}
+	\label{tab:Caso1_1}
 \end{table}
-Sapendo che il numero 3 evidenziato in tabella  sia un minimo ottenuto dalla fase di \textit{Minimality} allora per le regole precedenti
+Sapendo che il numero 3 evidenziato in tabella\ref{tab:Caso1_1} sia un minimo ottenuto dalla fase di \textit{Minimality} allora per le regole precedenti
 \begin{equation*}
 PresDate_{(\leq 2)} \rightarrow ExeDate_{(\leq 3)}
 \end{equation*}
-è una RFD valida. Spostandoci a questo punto sul \textit{ClusterID} successivo il minimo è il numero 2 evidenziato in tabella(ottenuto come nel caso precedente dalla fase di \textit{Minimality}).
+è una RFD valida. 
 \begin{table}[H]
 	\centering
 	\begin{tabu}{l l | l!{\color{red}\vrule} l!{\color{red}\vrule} l}
@@ -102,11 +104,14 @@ PresDate_{(\leq 2)} \rightarrow ExeDate_{(\leq 3)}
 		\rowfont{\color{gray}}
 		1,5 & 4 & 1 & 6 & 3 \\	
 	\end{tabu}
+\caption{}
+\label{tab:Caso1_2}
 \end{table}
+Spostandoci a questo punto sul \textit{ClusterID} successivo il minimo è il numero 2 evidenziato in tabella\ref{tab:Caso1_2} (ottenuto come nel caso precedente dalla fase di \textit{Minimality}).
 Allora a questo punto si ha che anche 
 \begin{equation*}
 PresDate_{(\leq 1)} \rightarrow ExeDate_{(\leq 1)}
 \end{equation*}
-è una RFD valida. Non andiamo più oltre poichè il cluster successivo ammette un minimo uguale a 0.
+è una RFD valida. A questo punto non è più possibile generare ulteriori RFD  poichè il cluster successivo ammette un minimo uguale a 0.
 
 %!{\color{red}\vrule}
