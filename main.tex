@@ -1,23 +1,13 @@
 \documentclass[12pt,oneside]{report}
-\usepackage[utf8]{inputenc}
-\usepackage{graphicx}
-\usepackage[a4paper,top=25mm,bottom=25mm,bindingoffset=6mm,hmargin={3.5cm,3cm}]{geometry}
-\usepackage{setspace}
-\doublespacing
-\usepackage[italian]{babel}
-\usepackage{titlesec}
-\titleformat{\chapter}[display]
-{\normalfont\huge\bfseries}{}{0pt}{\Huge}
-\titlespacing*{\chapter} {0pt}{20pt}{40pt}
-                 
-                 
+\usepackage{import}
+\import{./Utility/}{preambolo}     %serve per fare import a cascata
+            
 \begin{document} 
 	                
 	\begin{titlepage}
 		\input{Capitoli/Front}
 	\end{titlepage} 
     
-  
     %Dediche iniziali
     \input{Capitoli/dedicaIniziale}
    	%Abstract Tesi
@@ -26,12 +16,30 @@
 	\input{Capitoli/Abstract}
     %Indice
     \tableofcontents{}
+    \listoftables
+    \listoflistings
     \newpage
     \pagenumbering{arabic}
     %Capitolo 1
     \chapter{Introduzione}
-    %\input{Capitoli/Capitolo1}
-    \newpage
+    \import{Capitoli/Capitolo1/}{Introduzione}
+    %Capitolo 2
+    \chapter{Stato dell'Arte}
+    \import{Capitoli/Capitolo2/}{StatoDellArte}
+   	%Capitolo 3
+    \chapter{Algoritmo}
+    \import{Capitoli/Capitolo3/}{Algoritmo}
+    %Capitolo 4
+    \chapter{Implementazione}
+    \import{Capitoli/Capitolo4/}{Implementazione}
+    %Capitolo 5
+    \chapter{Conclusioni}
+    \import{Capitoli/Capitolo5/}{Conclusioni}
+    %Capitolo 6
+    \chapter{Ringraziamenti}
+    \import{Capitoli/Capitolo6/}{Ringraziamenti}
+    
+ 
     \bibliography{bibliografia} 
     \bibliographystyle{ieeetr}
 \end{document}
