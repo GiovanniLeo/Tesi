@@ -1,5 +1,5 @@
 /**
-* Metodo che da inizio alla fase di minimality e RFD discovery
+* Metodo che da inizio alla fase di minimality e Generation
 **/
 public static ObjectArrayList<RFDMap> startMinimalityAndGeneration
           (ObjectArrayList<ObjectArrayList<String>> allC,
